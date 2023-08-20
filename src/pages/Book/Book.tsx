@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Loading from "../../componets/Shared/Loading";
 import { useGetBookQuery } from "../../redux/features/book/bookApiSlice";
 
@@ -13,7 +14,9 @@ interface IBook {
 }
 
 export default function Book() {
-  const { data, isLoading } = useGetBookQuery(undefined);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { data, isLoading } = useGetBookQuery(searchTerm);
 
   const books = data?.data;
 
@@ -26,6 +29,7 @@ export default function Book() {
       <div className="flex justify-between items-center">
         <p className="font-bold text-xl my-5">All Available Books Here</p>
         <input
+          onChange={(e) => setSearchTerm(e.target.value)}
           type="text"
           placeholder="Search book by name, author or genre"
           className="input input-bordered w-full max-w-xs"
