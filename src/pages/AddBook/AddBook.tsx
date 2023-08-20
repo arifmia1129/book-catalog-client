@@ -1,6 +1,17 @@
 import { useForm } from "react-hook-form";
+import { useAddBookMutation } from "../../redux/features/book/bookApiSlice";
+import { ApiErrorResponse } from "../../types/globalTypes";
+import { toast } from "react-hot-toast";
+import { useEffect } from "react";
+import Loading from "../../componets/Shared/Loading";
+import { useAppSelector } from "../../redux/hooks";
 
 export default function AddBook() {
+  const [addBook, { isLoading, data: res, isError, error, isSuccess }] =
+    useAddBookMutation();
+
+  const { email } = useAppSelector((state) => state.user);
+
   const {
     register,
     formState: { errors },
@@ -8,7 +19,25 @@ export default function AddBook() {
     reset,
   } = useForm();
 
-  const onSubmit = async (data: object) => {};
+  const onSubmit = async (data: object) => {
+    addBook({ user: email, ...data });
+  };
+
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      toast.success(res.message);
+      reset();
+    }
+
+    if (!isLoading && isError && error && "data" in error) {
+      const apiError = error as ApiErrorResponse;
+      toast.error(apiError.data.errorMessages[0].message);
+    }
+  }, [isLoading, res, reset, isError, error, isSuccess]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className="m-5 max-w-7xl mx-auto">
       <h3 className="text-2xl font-bold">Add a new book</h3>

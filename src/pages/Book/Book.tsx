@@ -39,7 +39,7 @@ export default function Book() {
         {books?.map((book: IBook) => (
           <div key={book._id} className="card w-96 bg-base-100 shadow-xl">
             <figure>
-              <img src={book.imageUrl} alt="book" />
+              <img className="h-60 w-full" src={book.imageUrl} alt="book" />
             </figure>
             <div className="card-body">
               <h2 className="card-title">{book.title}</h2>
