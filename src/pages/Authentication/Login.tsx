@@ -1,19 +1,38 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Loading from "../../componets/Shared/Loading";
+import { useRegisterUserMutation } from "../../redux/features/user/userApiSlice";
+import { toast } from "react-hot-toast";
+import { useEffect } from "react";
+import { ApiErrorResponse } from "../../types/globalTypes";
+import { useNavigate } from "react-router-dom";
+import { AiFillHome } from "react-icons/ai";
 
 function Login() {
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const [registerUser, { isLoading, data: res, isError, error, isSuccess }] =
+    useRegisterUserMutation();
 
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
 
-  const onSubmit = async (data) => {
-    console.log(data);
+  const onSubmit = async (data: object) => {
+    registerUser(data);
   };
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      toast.success(res?.message);
+      reset();
+    }
+
+    if (!isLoading && isError && error && "data" in error) {
+      const apiError = error as ApiErrorResponse;
+      toast.error(apiError.data.errorMessages[0].message);
+    }
+  }, [isLoading, res, reset, isError, error, isSuccess]);
 
   if (isLoading) {
     return <Loading />;
@@ -23,6 +42,12 @@ function Login() {
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-[90vw] md:w-[30vw] md:h-[60vh] h-[90vh] rounded-lg bg-white grid grid-cols-1 place-content-center place-items-center shadow-lg">
+            <div
+              onClick={() => navigate("/")}
+              className="flex justify-start w-full mt-[-50px] ml-20 cursor-pointer"
+            >
+              <AiFillHome size={30} />
+            </div>
             <p className="text-center font-bold text-2xl text-primary mb-10">
               Login
             </p>
@@ -58,7 +83,17 @@ function Login() {
                 </span>
               </label>
             </div>
-
+            <div>
+              <p className="text-center">
+                <small>Are you new Love for Book? </small>
+                <small
+                  onClick={() => navigate("/signup")}
+                  className="text-blue-500 font-semibold cursor-pointer"
+                >
+                  Register now
+                </small>
+              </p>
+            </div>
             <div className="w-full flex justify-center mt-10">
               <input
                 className="btn btn-primary text-white w-44"
