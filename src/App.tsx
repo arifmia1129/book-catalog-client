@@ -1,11 +1,11 @@
-import Navbar from "./componets/Shared/Navbar";
-import Book from "./pages/Book/Book";
+import { Toaster } from "react-hot-toast";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
   return (
     <>
-      <Navbar />
-      <Book />
+      <MainLayout />
+      <Toaster />
     </>
   );
 }
