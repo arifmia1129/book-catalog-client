@@ -1,6 +1,16 @@
 import { Link, NavLink } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { fetchedUserProfile } from "../../redux/features/user/userSlice";
 
 function Navbar() {
+  const { email } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    dispatch(fetchedUserProfile());
+  };
+
   const menuItems = (
     <>
       <NavLink
@@ -13,16 +23,18 @@ function Navbar() {
       >
         Book
       </NavLink>
-      <NavLink
-        to="/add-book"
-        className={({ isActive }) =>
-          isActive
-            ? "bg-gray-900 px-5 py-2 my-auto rounded-lg text-white block w-fit m-2"
-            : "text-gray-900 my-auto block w-fit m-2"
-        }
-      >
-        Add Book
-      </NavLink>
+      {email && (
+        <NavLink
+          to="/add-book"
+          className={({ isActive }) =>
+            isActive
+              ? "bg-gray-900 px-5 py-2 my-auto rounded-lg text-white block w-fit m-2"
+              : "text-gray-900 my-auto block w-fit m-2"
+          }
+        >
+          Add Book
+        </NavLink>
+      )}
     </>
   );
   return (
@@ -38,12 +50,21 @@ function Navbar() {
               <details>
                 <summary>Profile</summary>
                 <ul className="p-2 bg-base-100">
-                  <li>
-                    <Link to={"/signup"}>Sign Up</Link>
-                  </li>
-                  <li>
-                    <Link to={"/login"}>Login</Link>
-                  </li>
+                  {!email && (
+                    <>
+                      <li>
+                        <Link to={"/signup"}>Sign Up</Link>
+                      </li>
+                      <li>
+                        <Link to={"/login"}>Login</Link>
+                      </li>
+                    </>
+                  )}
+                  {email && (
+                    <li className="cursor-pointer" onClick={handleLogout}>
+                      Logout
+                    </li>
+                  )}
                 </ul>
               </details>
             </li>
