@@ -6,6 +6,7 @@ const api = createApi({
     baseUrl: "https://book-catalog-server-nine.vercel.app/api/v1/",
   }),
   endpoints: () => ({}),
+  tagTypes: ["addBook"],
 });
 
 export default api;

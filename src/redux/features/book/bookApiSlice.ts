@@ -4,6 +4,7 @@ const bookApi = api.injectEndpoints({
   endpoints: (build) => ({
     getBook: build.query({
       query: (term) => `book?searchTerm=${term}`,
+      providesTags: ["addBook"],
     }),
     addBook: build.mutation({
       query: (data) => ({
@@ -11,6 +12,7 @@ const bookApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["addBook"],
     }),
   }),
 });
