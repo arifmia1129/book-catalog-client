@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Loading from "../../componets/Shared/Loading";
-import { useRegisterUserMutation } from "../../redux/features/user/userApiSlice";
+import { useLoginUserMutation } from "../../redux/features/user/userApiSlice";
 import { toast } from "react-hot-toast";
 import { useEffect } from "react";
 import { ApiErrorResponse } from "../../types/globalTypes";
@@ -9,9 +9,8 @@ import { AiFillHome } from "react-icons/ai";
 
 function Login() {
   const navigate = useNavigate();
-  const [registerUser, { isLoading, data: res, isError, error, isSuccess }] =
-    useRegisterUserMutation();
-
+  const [loginUser, { isLoading, data: res, isError, error, isSuccess }] =
+    useLoginUserMutation();
   const {
     register,
     formState: { errors },
@@ -20,11 +19,12 @@ function Login() {
   } = useForm();
 
   const onSubmit = async (data: object) => {
-    registerUser(data);
+    loginUser(data);
   };
   useEffect(() => {
     if (!isLoading && isSuccess) {
-      toast.success(res?.message);
+      localStorage.setItem("token", res.data.accessToken);
+      navigate("/");
       reset();
     }
 
@@ -32,7 +32,7 @@ function Login() {
       const apiError = error as ApiErrorResponse;
       toast.error(apiError.data.errorMessages[0].message);
     }
-  }, [isLoading, res, reset, isError, error, isSuccess]);
+  }, [isLoading, res, reset, isError, error, isSuccess, navigate]);
 
   if (isLoading) {
     return <Loading />;

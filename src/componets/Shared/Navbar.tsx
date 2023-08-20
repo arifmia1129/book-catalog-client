@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Navbar() {
   const menuItems = (
@@ -29,10 +29,10 @@ function Navbar() {
                 <summary>Profile</summary>
                 <ul className="p-2 bg-base-100">
                   <li>
-                    <a>Link 1</a>
+                    <Link to={"/signup"}>Sign Up</Link>
                   </li>
                   <li>
-                    <a>Link 2</a>
+                    <Link to={"/login"}>Login</Link>
                   </li>
                 </ul>
               </details>

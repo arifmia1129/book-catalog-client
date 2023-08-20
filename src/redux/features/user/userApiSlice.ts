@@ -9,7 +9,14 @@ const bookApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    loginUser: build.mutation({
+      query: (data) => ({
+        url: "user/login",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useRegisterUserMutation } = bookApi;
+export const { useRegisterUserMutation, useLoginUserMutation } = bookApi;

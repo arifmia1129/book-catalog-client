@@ -44,7 +44,7 @@ function Signup() {
           <div className="w-[90vw] md:w-[30vw] md:h-[60vh] h-[90vh] rounded-lg bg-white grid grid-cols-1 place-content-center place-items-center shadow-lg">
             <div
               onClick={() => navigate("/")}
-              className="flex justify-start w-full mt-[-50px] ml-20 cursor-pointer"
+              className="flex justify-start w-full mt-[-10px] ml-20 cursor-pointer"
             >
               <AiFillHome size={30} />
             </div>
