@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Loading from "../../componets/Shared/Loading";
 
-function Signup() {
+function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -24,24 +24,8 @@ function Signup() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-[90vw] md:w-[30vw] md:h-[60vh] h-[90vh] rounded-lg bg-white grid grid-cols-1 place-content-center place-items-center shadow-lg">
             <p className="text-center font-bold text-2xl text-primary mb-10">
-              Register
+              Login
             </p>
-            <div className="form-control w-full max-w-xs">
-              <label className="label">
-                <span className="label-text">Name *</span>
-              </label>
-              <input
-                {...register("name", { required: "Name is required" })}
-                type="text"
-                placeholder="Write your name"
-                className="input input-bordered w-full max-w-xs"
-              />
-              <label className="label">
-                <span className="label-text-alt text-red-500">
-                  {errors.name && String(errors.name.message)}
-                </span>
-              </label>
-            </div>
             <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Email *</span>
@@ -78,7 +62,7 @@ function Signup() {
             <div className="w-full flex justify-center mt-10">
               <input
                 className="btn btn-primary text-white w-44"
-                value={"Sign Up"}
+                value={"Login"}
                 type="submit"
               />
             </div>
@@ -89,4 +73,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;
