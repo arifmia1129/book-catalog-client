@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useAddReviewMutation,
   useGetBookByIdQuery,
@@ -14,6 +14,8 @@ import DeleteConfirmModal from "./DeleteConfirmModal";
 export default function BookDetails() {
   const [review, setReview] = useState("");
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const { data, isLoading: loading } = useGetBookByIdQuery(id);
   const [addReview, { isLoading, data: res, error, isError, isSuccess }] =
     useAddReviewMutation();
@@ -65,7 +67,10 @@ export default function BookDetails() {
           {book?.user === email && (
             <div className="flex justify-center">
               <div>
-                <button className="btn bg-yellow-500 text-white rounded px-5 py-2 mx-2">
+                <button
+                  onClick={() => navigate(`/edit-book/${id}`)}
+                  className="btn bg-yellow-500 text-white rounded px-5 py-2 mx-2"
+                >
                   Edit Book
                 </button>
                 <button
