@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { ApiErrorResponse } from "../../types/globalTypes";
 import Reviews from "../../componets/Book/Reviews";
+import { useAppSelector } from "../../redux/hooks";
+import DeleteConfirmModal from "./DeleteConfirmModal";
 
 export default function BookDetails() {
   const [review, setReview] = useState("");
@@ -15,8 +17,9 @@ export default function BookDetails() {
   const { data, isLoading: loading } = useGetBookByIdQuery(id);
   const [addReview, { isLoading, data: res, error, isError, isSuccess }] =
     useAddReviewMutation();
-  console.log(res);
   const book = data?.data;
+
+  const { email } = useAppSelector((state) => state.user);
 
   const handleAddReview = () => {
     if (!review) {
@@ -59,6 +62,21 @@ export default function BookDetails() {
               #Public Date: {book.publicDate}
             </small>
           </div>
+          {book?.user === email && (
+            <div className="flex justify-center">
+              <div>
+                <button className="btn bg-yellow-500 text-white rounded px-5 py-2 mx-2">
+                  Edit Book
+                </button>
+                <button
+                  onClick={() => window?.book_delete_confirmation?.showModal()}
+                  className="btn bg-red-500 text-white rounded px-5 py-2 mx-2"
+                >
+                  Delete Book
+                </button>
+              </div>
+            </div>
+          )}
         </div>
         <div className="my-5 flex">
           <input
@@ -76,6 +94,7 @@ export default function BookDetails() {
         </div>
         <Reviews id={id as string} />
       </div>
+      <DeleteConfirmModal book={book} />
     </div>
   );
 }
