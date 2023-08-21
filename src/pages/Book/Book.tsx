@@ -2,6 +2,8 @@ import { useState } from "react";
 import Loading from "../../componets/Shared/Loading";
 import { useGetBookQuery } from "../../redux/features/book/bookApiSlice";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux/hooks";
+import { addToWishlist } from "../../redux/features/wishlist/wishlistSlice";
 
 interface IBook {
   _id: string;
@@ -22,6 +24,7 @@ export default function Book() {
   const books = data?.data;
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   if (isLoading) {
     return <Loading />;
@@ -44,27 +47,37 @@ export default function Book() {
             key={book._id}
             className="card w-96 bg-base-100 shadow-xl cursor-pointer"
           >
-            <div onClick={() => navigate(`book/${book._id}`)}>
-              <figure>
-                <img className="h-60 w-full" src={book.imageUrl} alt="book" />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">{book.title}</h2>
-                <p>
-                  <span className="text-gray-600 font-bold">By </span>
-                  {book.author}
-                </p>
-                <div className="flex justify-between my-5">
-                  <small className="text-gray-600 font-semibold">
-                    #{book.genre}
-                  </small>
-                  <small className="text-gray-600 font-semibold">
-                    #{book.publicDate}
-                  </small>
+            <div>
+              <div onClick={() => navigate(`book/${book._id}`)}>
+                <figure>
+                  <img className="h-60 w-full" src={book.imageUrl} alt="book" />
+                </figure>
+                <div className="card-body">
+                  <h2 className="card-title">{book.title}</h2>
+                  <p>
+                    <span className="text-gray-600 font-bold">By </span>
+                    {book.author}
+                  </p>
+                  <div className="flex justify-between my-5">
+                    <small className="text-gray-600 font-semibold">
+                      #{book.genre}
+                    </small>
+                    <small className="text-gray-600 font-semibold">
+                      #{book.publicDate}
+                    </small>
+                  </div>
                 </div>
-                <div className="card-actions justify-end">
-                  <button className="btn btn-primary">Buy Now</button>
-                </div>
+              </div>
+              <div className="card-actions justify-center mt-2 mb-5">
+                <button className="btn btn-secondary w-52">
+                  Add To Reading List
+                </button>
+                <button
+                  onClick={() => dispatch(addToWishlist(book))}
+                  className="btn btn-primary w-52"
+                >
+                  Add To Wishlist
+                </button>
               </div>
             </div>
           </div>
