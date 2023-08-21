@@ -1,10 +1,11 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { fetchedUserProfile } from "../../redux/features/user/userSlice";
 
 function Navbar() {
   const { email } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -40,7 +41,7 @@ function Navbar() {
   return (
     <>
       <div className="navbar bg-base-100">
-        <div className="flex-1">
+        <div onClick={() => navigate("/")} className="flex-1 cursor-pointer">
           <a className="btn btn-ghost normal-case text-xl">Love for Book</a>
         </div>
         <div className="flex-none">

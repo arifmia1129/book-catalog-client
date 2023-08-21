@@ -6,8 +6,8 @@ import {
 import Loading from "../../componets/Shared/Loading";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { BsPersonCircle } from "react-icons/bs";
 import { ApiErrorResponse } from "../../types/globalTypes";
+import Reviews from "../../componets/Book/Reviews";
 
 export default function BookDetails() {
   const [review, setReview] = useState("");
@@ -74,12 +74,7 @@ export default function BookDetails() {
             Comment
           </button>
         </div>
-        {book?.reviews?.map((review: string, index: number) => (
-          <div className="flex items-center my-5" key={index}>
-            <BsPersonCircle size={30} />
-            <p className="mx-2 font-semibold text-lg text-gray-800">{review}</p>
-          </div>
-        ))}
+        <Reviews id={id as string} />
       </div>
     </div>
   );
