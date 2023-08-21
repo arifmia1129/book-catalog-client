@@ -4,6 +4,7 @@ import { useGetBookQuery } from "../../redux/features/book/bookApiSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
 import { addToWishlist } from "../../redux/features/wishlist/wishlistSlice";
+import { addToReadingList } from "../../redux/features/readingList/readingListSlice";
 
 interface IBook {
   _id: string;
@@ -50,7 +51,11 @@ export default function Book() {
             <div>
               <div onClick={() => navigate(`book/${book._id}`)}>
                 <figure>
-                  <img className="h-60 w-full" src={book.imageUrl} alt="book" />
+                  <img
+                    className="h-60 w-full rounded-lg"
+                    src={book.imageUrl}
+                    alt="book"
+                  />
                 </figure>
                 <div className="card-body">
                   <h2 className="card-title">{book.title}</h2>
@@ -69,7 +74,10 @@ export default function Book() {
                 </div>
               </div>
               <div className="card-actions justify-center mt-2 mb-5">
-                <button className="btn btn-secondary w-52">
+                <button
+                  onClick={() => dispatch(addToReadingList(book))}
+                  className="btn btn-secondary w-52"
+                >
                   Add To Reading List
                 </button>
                 <button

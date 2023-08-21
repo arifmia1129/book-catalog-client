@@ -13,7 +13,7 @@ export default function Wishlist() {
               className="border-2 border-primary rounded-lg shadow-lg my-5 p-5 grid grid-cols-1 md:grid-cols-3 place-content-between place-items-center"
               key={book._id}
             >
-              <img className="w-52" src={book.imageUrl} alt="" />
+              <img className="w-52 rounded-lg" src={book.imageUrl} alt="" />
               <div>
                 <h3 className="font-bold text-center text-3xl">{book.title}</h3>
                 <h3 className="font-semibold text-center text-xl">

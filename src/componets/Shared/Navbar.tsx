@@ -46,6 +46,16 @@ function Navbar() {
       >
         Wishlist
       </NavLink>
+      <NavLink
+        to="/book/reading-list"
+        className={({ isActive }) =>
+          isActive
+            ? "bg-gray-900 px-5 py-2 my-auto rounded-lg text-white block w-fit m-2"
+            : "text-gray-900 my-auto block w-fit m-2"
+        }
+      >
+        Reading list
+      </NavLink>
     </>
   );
   return (
